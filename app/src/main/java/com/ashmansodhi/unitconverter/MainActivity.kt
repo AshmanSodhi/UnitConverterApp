@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -31,10 +32,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.ashmansodhi.unitconverter.ui.theme.UnitConverterTheme
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
@@ -42,6 +45,7 @@ import kotlin.math.roundToLong
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.custom_status_bar_color)
         setContent {
             UnitConverterTheme {
                 // A surface container using the 'background' color from the theme
@@ -68,6 +72,7 @@ fun UnitConverter(){
     val conversionFactor = remember { mutableStateOf(1.00) }
     val oConversionFactor = remember { mutableStateOf(1.00) }
 
+    val customColor = Color(0xFF4D2142)
     fun convertUnits(){
         val inputValueDouble = inputValue.toDoubleOrNull() ?: 0.0
         val result = (inputValueDouble * conversionFactor.value * 100.0 / oConversionFactor.value) / 100.0
@@ -92,7 +97,8 @@ fun UnitConverter(){
         Spacer(modifier = Modifier.height(16.dp))
         Row {
             Box{
-                Button(onClick = { iExpanded = true }) {
+                Button(onClick = { iExpanded = true } , colors = ButtonDefaults.buttonColors(
+                    containerColor = customColor)){
                     Text(inputUnit)
                     Icon(Icons.Default.ArrowDropDown, contentDescription = "Arrow Down")
                 }
@@ -136,7 +142,8 @@ fun UnitConverter(){
             }
             Spacer(modifier = Modifier.width(16.dp))
             Box{
-                Button(onClick = { oExpanded = true }) {
+                Button(onClick = { oExpanded = true } , colors = ButtonDefaults.buttonColors(
+                    containerColor = customColor)) {
                     Text(outputUnit)
                     Icon(Icons.Default.ArrowDropDown, contentDescription = "Arrow Down")
                 }
